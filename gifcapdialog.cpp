@@ -16,6 +16,9 @@
 #include<QFont>
 #include<QTimer>
 #include<QScreen>
+#include<QFileDialog>
+#include<QDate>
+#include<QMessageBox>
 GifCapDialog::GifCapDialog(QWidget*parent)
     :QDialog(parent)
     ,borderSize(5)
@@ -403,7 +406,7 @@ void GifCapDialog::addFrame()
 
 void GifCapDialog::record()
 {
-     QString fileName("E:/gitHub/QtProject/GifCapture/bin/test.gif");
+    QString fileName("./gifCapture.gif.tmp");
     if(gifWriter == nullptr)
     {
         gifWriter = new Gif::GifWriter;
@@ -433,6 +436,23 @@ void GifCapDialog::recordStop()
         delete gifWriter;
         gifWriter = nullptr;
     }
+    //选择保存路径
+    QString filePath = QDir::homePath()+QString("/Pictures/Undefined.gif");
+    QString savePath = QFileDialog::getSaveFileName(this,"选择GIF保存目录",filePath,"gif(*.gif)");
+    if(savePath.isEmpty())
+    {
+        QMessageBox::warning(this,"路径错误","请选择正确的路径");
+        return;
+    }
+
+    if(QFile::copy("./gifCapture.gif.tmp",savePath))
+    {
+         QFile::remove("./gifCapture.gif.tmp");
+    }else
+    {
+        QMessageBox::warning(this,"gif保存失败","保存失败，请重试,有可能没有写入权限，请以管理员权限运行此程序");
+    }
+
 }
 
 void GifCapDialog::recordPause()
