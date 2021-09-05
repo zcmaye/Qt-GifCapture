@@ -28,7 +28,7 @@ GifCapDialog::GifCapDialog(QWidget*parent)
     ,buttomLeftSizeGrip(new QSizeGrip(this))
 {
     this->setAttribute(Qt::WA_TranslucentBackground);
-    this->setWindowFlags(windowFlags() | Qt::WindowType::FramelessWindowHint);
+    this->setWindowFlags(windowFlags() | Qt::WindowType::FramelessWindowHint | Qt::WindowType::WindowStaysOnTopHint);
     this->setMouseTracking(true);
     //this->setSizeGripEnabled(true); //右下角可以调整窗口大小的手柄，不知道为啥只显示一次？
     this->resize(640,480);
